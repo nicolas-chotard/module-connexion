@@ -41,20 +41,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["mot_de_passe"];
     $password_confirm = $_POST["mot_de_passe_confirm"];
 
-
     if ($password !== $password_confirm) {
         echo "Les mots de passe ne correspondent pas.";
     } else {
         if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $password)) {
             echo "Le mot de passe doit contenir au moins huit caractères, une majuscule, un chiffre et un caractère spécial.";
         } else {
-
             $query = "SELECT * FROM user WHERE login = '$login'";
             $result = mysqli_query($conn, $query);
             if (mysqli_num_rows($result) > 0) {
                 echo "Ce login est déjà utilisé. Veuillez en choisir un autre.";
             } else {
-
                 $query = "INSERT INTO user (lastname, firstname, login, password) VALUES ('$lastname', '$firstname', '$login', '$password')";
                 if (mysqli_query($conn, $query)) {
                     header("Location: connexion.php");
